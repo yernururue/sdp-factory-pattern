@@ -1,0 +1,45 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+title Factory Method - Logistics
+
+interface Transport <<Product>> {
+  +deliver(cargo: String, destination: String): void
+}
+
+class Truck <<Concrete Product>> {
+  +deliver(cargo: String, destination: String): void
+}
+
+class Ship <<Concrete Product>> {
+  +deliver(cargo: String, destination: String): void
+}
+
+abstract class Logistics <<Creator>> {
+  +createTransport(): Transport
+  +planDelivery(cargo: String, destination: String): void
+}
+
+class RoadLogistics <<Concrete Creator>> {
+  +createTransport(): Transport
+}
+
+class SeaLogistics <<Concrete Creator>> {
+  +createTransport(): Transport
+}
+
+class DeliveryApplication <<Client>> {
+  -logistics: Logistics
+  +run(cargo: String, destination: String): void
+}
+
+Truck ..|> Transport
+Ship ..|> Transport
+RoadLogistics --|> Logistics
+SeaLogistics --|> Logistics
+Logistics --> Transport : creates and uses
+RoadLogistics ..> Truck : creates
+SeaLogistics ..> Ship : creates
+DeliveryApplication --> Logistics : injected dependency
+
+@enduml

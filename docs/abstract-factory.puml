@@ -1,0 +1,70 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+title Abstract Factory - Platform UI Families
+
+interface Button <<Abstract Product>> {
+  +paint(): void
+}
+
+interface Checkbox <<Abstract Product>> {
+  +paint(): void
+}
+
+class WindowsButton <<Concrete Product>> {
+  +paint(): void
+}
+
+class WindowsCheckbox <<Concrete Product>> {
+  +paint(): void
+}
+
+class MacOSButton <<Concrete Product>> {
+  +paint(): void
+}
+
+class MacOSCheckbox <<Concrete Product>> {
+  +paint(): void
+}
+
+interface GUIFactory <<Abstract Factory>> {
+  +createButton(): Button
+  +createCheckbox(): Checkbox
+}
+
+class WindowsFactory <<Concrete Factory>> {
+  +createButton(): Button
+  +createCheckbox(): Checkbox
+}
+
+class MacOSFactory <<Concrete Factory>> {
+  +createButton(): Button
+  +createCheckbox(): Checkbox
+}
+
+class DeliveryApplication <<Client>> {
+  -logistics: Logistics
+  -button: Button
+  -checkbox: Checkbox
+  +DeliveryApplication(guiFactory: GUIFactory, logistics: Logistics)
+  +run(cargo: String, destination: String): void
+}
+
+abstract class Logistics <<Factory Method dependency>>
+
+WindowsButton ..|> Button
+MacOSButton ..|> Button
+WindowsCheckbox ..|> Checkbox
+MacOSCheckbox ..|> Checkbox
+WindowsFactory ..|> GUIFactory
+MacOSFactory ..|> GUIFactory
+WindowsFactory ..> WindowsButton : creates
+WindowsFactory ..> WindowsCheckbox : creates
+MacOSFactory ..> MacOSButton : creates
+MacOSFactory ..> MacOSCheckbox : creates
+DeliveryApplication --> GUIFactory : constructor dependency
+DeliveryApplication --> Button : stores and uses
+DeliveryApplication --> Checkbox : stores and uses
+DeliveryApplication --> Logistics : constructor dependency
+
+@enduml
