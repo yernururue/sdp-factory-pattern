@@ -1,13 +1,13 @@
-import factorymethod.Ship;
-import factorymethod.Transport;
-import factorymethod.Truck;
+import factorymethod.Logistics;
+import factorymethod.RoadLogistics;
+import factorymethod.SeaLogistics;
 
 public class Main {
     public static void main(String[] args) {
-        Transport truck = new Truck();
-        Transport ship = new Ship();
+        Logistics roadLogistics = new RoadLogistics();
+        Logistics seaLogistics = new SeaLogistics();
 
-        truck.deliver("laboratory equipment", "Astana warehouse");
-        ship.deliver("construction materials", "Aktau port");
+        roadLogistics.planDelivery("laboratory equipment", "Astana warehouse");
+        seaLogistics.planDelivery("construction materials", "Aktau port");
     }
 }
